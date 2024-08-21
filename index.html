@@ -71,29 +71,28 @@
             window.open(shareUrl, '_blank');
         });
       document.getElementById('downloadBtn').addEventListener('click', function() {
-        // 使用fetch请求视频文件
-            fetch('https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.blob(); // 将响应转换为Blob对象
-                })
-                .then(blob => {
-                    // 创建一个URL指向Blob对象
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'video.mp4'; // 设置下载文件的名称
-                    document.body.appendChild(a);
-                    a.click(); // 自动点击下载链接
-                    window.URL.revokeObjectURL(url); // 释放URL对象
-                })
-                .catch(error => {
-                    console.error('下载失败:', error);
-                    alert('视频下载失败，请重试。');
-                });
+        fetch('https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob(); // 将响应转换为Blob对象
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'video.mp4'; // 设置下载文件的名称
+                document.body.appendChild(a);
+                a.click(); // 自动点击下载链接
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url); // 释放URL对象
+            })
+            .catch(error => {
+                console.error('下载失败:', error);
+                alert('视频下载失败，请重试。');
+            });
     });
     </script>
 </body>
