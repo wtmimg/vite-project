@@ -64,36 +64,49 @@
         <a href="https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4" download="video.mp4">下载视频</a>
         <button id="downloadBtn">下载视频按钮</button>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script>
-        document.getElementById('shareButton').addEventListener('click', function() {
-            const shareUrl = 'https://t.me/share/url?url=https://t.me/MAS_APP_bot';
-            window.open(shareUrl, '_blank');
-        });
+      // 然后在你的下载按钮事件中使用 FileSaver
       document.getElementById('downloadBtn').addEventListener('click', function() {
-        fetch('https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.blob(); // 将响应转换为Blob对象
-            })
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = 'video.mp4'; // 设置下载文件的名称
-                document.body.appendChild(a);
-                a.click(); // 自动点击下载链接
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url); // 释放URL对象
-            })
-            .catch(error => {
-                console.error('下载失败:', error);
-                alert('视频下载失败，请重试。');
-            });
-    });
+          fetch('https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4')
+              .then(response => response.blob())
+              .then(blob => {
+                  saveAs(blob, 'video.mp4'); // 使用 FileSaver.js 触发保存操作
+              })
+              .catch(error => {
+                  console.error('下载失败:', error);
+                  alert('视频保存失败，请重试。');
+              });
+      });
+        
+      document.getElementById('shareButton').addEventListener('click', function() {
+          const shareUrl = 'https://t.me/share/url?url=https://t.me/MAS_APP_bot';
+          window.open(shareUrl, '_blank');
+      });
+    //   document.getElementById('downloadBtn').addEventListener('click', function() {
+    //     fetch('https://www.mas-x.io/video/converted/b9644d8a-2b42-47ae-ac18-18de0b4a38fb.mp4')
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.blob(); // 将响应转换为Blob对象
+    //         })
+    //         .then(blob => {
+    //             const url = window.URL.createObjectURL(blob);
+    //             const a = document.createElement('a');
+    //             a.style.display = 'none';
+    //             a.href = url;
+    //             a.download = 'video.mp4'; // 设置下载文件的名称
+    //             document.body.appendChild(a);
+    //             a.click(); // 自动点击下载链接
+    //             document.body.removeChild(a);
+    //             window.URL.revokeObjectURL(url); // 释放URL对象
+    //         })
+    //         .catch(error => {
+    //             console.error('下载失败:', error);
+    //             alert('视频下载失败，请重试。');
+    //         });
+    // });
     </script>
 </body>
 </html>
